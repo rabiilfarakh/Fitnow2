@@ -36,10 +36,11 @@ class ProgressionController extends Controller
     {
         $validatedData = $request->validated();
         
-        $user_id = Auth::id();
+        // $user_id = Auth::id();
         
         $progression = Progression::create([
-            'user_id' => $user_id,
+            // 'user_id' => $user_id,
+            'user_id' => 1,
             'poids' => $validatedData['poids'],
             'height' => $validatedData['height'],
             'biceps' => $validatedData['biceps'],
