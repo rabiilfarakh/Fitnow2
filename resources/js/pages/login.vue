@@ -19,7 +19,9 @@
                 <button type="submit" class="w-full rounded-md bg-black px-3 py-4 text-white focus:bg-gray-600 focus:outline-none">Log in</button>
               </div>
               <p class="text-center text-sm text-gray-500">Don't have an account yet?
-                <a href="#!" class="font-semibold text-gray-600 hover:underline focus:text-gray-800 focus:outline-none">Sign up</a>.
+                <router-link to="/register" class="font-semibold text-gray-600 hover:underline focus:text-gray-800 focus:outline-none">
+                  Sign up
+                </router-link>
               </p>
             </form>
           </div>
