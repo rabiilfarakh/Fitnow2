@@ -81,10 +81,10 @@ class ProgressionController extends Controller
 
         ]);
         
-        $user_id = Auth::id();
+        // $user_id = Auth::id();
         
             $progression->update([
-                'user_id' => $user_id,
+                'user_id' => 1,
                 'poids' => $validatedData['poids'],
                 'height' => $validatedData['height'],
                 'biceps' => $validatedData['biceps'],
