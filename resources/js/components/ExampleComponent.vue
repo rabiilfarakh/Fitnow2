@@ -30,7 +30,7 @@
 
                     <td class="px-6 py-4 whitespace-nowrap">
                         <button @click="updateModal(progression)" class="px-4 py-2 font-medium text-white bg-yellow-300 rounded-md hover:bg-yellow-200 focus:outline-none focus:shadow-outline-blue active:bg-blue-600 transition duration-150 ease-in-out">Update</button>
-                        <button class="ml-2 px-4 py-2 font-medium text-white bg-red-600 rounded-md hover:bg-red-500 focus:outline-none focus:shadow-outline-red active:bg-red-600 transition duration-150 ease-in-out">Delete</button>
+                        <button @click="deleteProgression(progression.id)" class="ml-2 px-4 py-2 font-medium text-white bg-red-600 rounded-md hover:bg-red-500 focus:outline-none focus:shadow-outline-red active:bg-red-600 transition duration-150 ease-in-out">Delete</button>
                     </td>
                 </tr>
             </tbody>
@@ -71,61 +71,74 @@
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-                progressions: [],
-                progression: { id: null, poids: "", height: "", biceps: "", mollet: "" },
-                showModal: false,
-                isUpdate: false
-            }
-        },
-
-        methods: {
-            getProgressions() {
-                axios.get('/api/progression')
-                    .then(res => {
-                        this.progressions = res.data;
-                    })
-                    .catch(err => console.error(err));
-            },
-
-            addProgression() {
-                axios.post('/api/progression', this.progression)
-                    .then(res => {
-                        this.getProgressions();
-                        this.showModal = false;
-                        this.progression = { id: null, poids: "", height: "", biceps: "", mollet: "" };
-                    })
-                    .catch(err => console.error(err));
-            },
-
-            updateModal(progression) {
-                this.progression = { 
-                    id: progression.id,
-                    poids: progression.poids,
-                    height: progression.height,
-                    biceps: progression.biceps,
-                    mollet: progression.mollet
-                };
-                this.isUpdate = true; 
-                this.showModal = true;
-            },
-
-            updateProgression() {
-                axios.put(`/api/progression/${this.progression.id}`, this.progression)
-                    .then(res => {
-                        this.getProgressions();
-                        this.showModal = false;
-                        this.progression = { id: null, poids: "", height: "", biceps: "", mollet: "" };
-                        this.isUpdate = false; 
-                    })
-                    .catch(err => console.error(err));
-            },
-        },
-
-        mounted() {
-            this.getProgressions();
+export default {
+    data() {
+        return {
+            progressions: [],
+            progression: { id: null, poids: "", height: "", biceps: "", mollet: "" },
+            showModal: false,
+            isUpdate: false
         }
+    },
+
+    methods: {
+        getProgressions() {
+            axios.get('/api/progression')
+                .then(res => {
+                    this.progressions = res.data;
+                })
+                .catch(err => console.error(err));
+        },
+
+        addProgression() {
+            axios.post('/api/progression', this.progression)
+                .then(res => {
+                    this.getProgressions();
+                    this.showModal = false;
+                    this.progression = { id: null, poids: "", height: "", biceps: "", mollet: "" };
+                })
+                .catch(err => console.error(err));
+        },
+
+        updateModal(progression) {
+            this.progression = { 
+                id: progression.id,
+                poids: progression.poids,
+                height: progression.height,
+                biceps: progression.biceps,
+                mollet: progression.mollet
+            };
+            this.isUpdate = true; 
+            this.showModal = true;
+        },
+
+        updateProgression() {
+            axios.put(`/api/progression/${this.progression.id}`, this.progression)
+                .then(res => {
+                    this.getProgressions();
+                    this.showModal = false;
+                    this.progression = { id: null, poids: "", height: "", biceps: "", mollet: "" };
+                    this.isUpdate = false; 
+                })
+                .catch(err => console.error(err));
+        },
+
+        deleteProgression(id) {
+            if (confirm("Are you sure you want to delete this progression?")) {
+                axios.delete(`/api/progression/${id}`)
+                    .then(res => {
+                        this.getProgressions();
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        alert("Failed to delete progression.");
+                    });
+            }
+        }
+    },
+
+    mounted() {
+        this.getProgressions();
     }
+}
 </script>
