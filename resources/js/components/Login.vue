@@ -28,9 +28,10 @@
     </div>
   </template>
   
-  <script>
+<script>
+import { useRouter } from 'vue-router';
 
-  export default {
+export default {
     data() {
       return {
         user: { email: "", password: "" },
@@ -45,7 +46,9 @@
             if (res.data.token) {
               this.message = res.data.message;
               localStorage.setItem('token', JSON.stringify(res.data.token));
-              this.$router.push('/');
+            //   const router = useRouter();
+            //     router.push('/');
+            window.location = "/";
             } else {
               this.message = res.data.message;
             }
