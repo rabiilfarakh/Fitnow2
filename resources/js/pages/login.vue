@@ -28,35 +28,41 @@
     </div>
   </template>
   
-<script>
-import { useRouter } from 'vue-router';
-
-export default {
-    data() {
-      return {
-        user: { email: "", password: "" },
-        message: ''
-      }
-    },
-    methods: {
-      login() {
-      
-        axios.post('/api/login', this.user)
+  <script>
+  import { useRouter } from 'vue-router';
+  import axios from 'axios';
+  
+  export default {
+    setup() {
+      const router = useRouter();
+  
+      const user = {
+        email: "",
+        password: ""
+      };
+      let message = '';
+  
+      const login = () => {
+        axios.post('/api/login', user)
           .then(res => {
             if (res.data.token) {
-              this.message = res.data.message;
+              message = res.data.message;
               localStorage.setItem('token', JSON.stringify(res.data.token));
-              const router = useRouter();
-                router.push('/');
-            // window.location = "/";
+              router.push('/');
             } else {
-              this.message = res.data.message;
+              message = res.data.message;
             }
           })
           .catch((e) => console.log(e.message));
-
-      }
+      };
+  
+      return {
+        user,
+        message,
+        login
+      };
     }
   }
   </script>
+  
   
