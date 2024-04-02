@@ -9,6 +9,12 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+
+    public function index(){
+        return view('auth.login');
+    }
+
+
     public function register(Request $request){
         
         $this->validate($request,[
@@ -46,7 +52,7 @@ class UserController extends Controller
                 ]);
             }else{
                 return response()->json([
-                    'message' => 'Invalid Credentials'
+                    'message' => 'Invalid Credentials',"val"=>$request->all()
                 ], 401);
             }
     

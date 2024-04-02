@@ -95,7 +95,7 @@ export default {
                 .then(res => {
                     this.getProgressions();
                     this.showModal = false;
-                    this.progression = { id: null, poids: "", height: "", biceps: "", mollet: "" };
+                    this.progression = {poids: "", height: "", biceps: "", mollet: "" };
                 })
                 .catch(err => console.error(err));
         },
@@ -117,7 +117,7 @@ export default {
                 .then(res => {
                     this.getProgressions();
                     this.showModal = false;
-                    this.progression = { id: null, poids: "", height: "", biceps: "", mollet: "" };
+                    this.progression = {poids: "", height: "", biceps: "", mollet: "" };
                     this.isUpdate = false; 
                 })
                 .catch(err => console.error(err));
