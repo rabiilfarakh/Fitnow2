@@ -46,17 +46,15 @@ export default {
             if (res.data.token) {
               this.message = res.data.message;
               localStorage.setItem('token', JSON.stringify(res.data.token));
-            //   const router = useRouter();
-            //     router.push('/');
-            window.location = "/";
+              const router = useRouter();
+                router.push('/');
+            // window.location = "/";
             } else {
               this.message = res.data.message;
             }
           })
-          .catch(err => {
-            console.error(err);
-            this.message = "An error occurred while logging in.";
-          });
+          .catch((e) => console.log(e.message));
+
       }
     }
   }
