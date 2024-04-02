@@ -75,7 +75,7 @@ export default {
     data() {
         return {
             progressions: [],
-            progression: { id: null, poids: "", height: "", biceps: "", mollet: "" },
+            progression: {poids: "", height: "", biceps: "", mollet: "" },
             showModal: false,
             isUpdate: false
         }
