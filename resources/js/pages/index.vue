@@ -91,11 +91,9 @@
                   center that focuses on pushing you to your absolute limit.
                   Download our complete brochure to get started today!
                 </p>
-                <a
-                  href="#"
-                  class="bg-transparent hover:bg-red-500 text-red-500 font-semibold hover:text-white p-4 border border-red-500 hover:border-transparent rounded inline-block mt-5 cursor-pointer"
-                  >Progressions</a
-                >
+                <router-link to="/dashboard" class="bg-transparent hover:bg-red-500 text-red-500 font-semibold hover:text-white p-4 border border-red-500 hover:border-transparent rounded inline-block mt-5 cursor-pointer">
+                    Progressions
+                </router-link>
               </div>
             </div>
           </div>
