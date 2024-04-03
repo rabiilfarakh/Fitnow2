@@ -46,7 +46,6 @@ export default {
         register() {
         axios.post('/api/register', this.user)
             .then(res => {
-                // this.getUsers();
                 this.user = {name: "", email: "", password: "" };
                 this.$router.push('/login');
             })
