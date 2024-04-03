@@ -73,6 +73,7 @@
 </template>
 
 <script>
+    const token = localStorage.getItem('token');
 export default {
     data() {
         return {
@@ -85,15 +86,32 @@ export default {
 
     methods: {
         getProgressions() {
-            axios.get('/api/progression')
-                .then(res => {
-                    this.progressions = res.data;
-                })
-                .catch(err => console.error(err));
-        },
+            if (!token) {
+                console.error('No token found. User not authenticated.');
+                return;
+            }
+
+            axios.get('/api/progression', {
+                headers: {
+                'Authorization': `Bearer ${token}`
+                }
+            })
+            .then(res => {
+                
+                this.progressions = res.data;
+            })
+            .catch(error => {
+                console.error('Error while fetching progressions:', error);
+            });
+            },
+
 
         addProgression() {
-            axios.post('/api/progression', this.progression)
+            axios.post('/api/progression', this.progression, {
+                headers: {
+                'Authorization': `Bearer ${token}`
+                }
+            })
                 .then(res => {
                     this.getProgressions();
                     this.showModal = false;
@@ -115,7 +133,11 @@ export default {
         },
 
         updateProgression() {
-            axios.put(`/api/progression/${this.progression.id}`, this.progression)
+            axios.put(`/api/progression/${this.progression.id}`, this.progression,{
+                headers: {
+                'Authorization': `Bearer ${token}`
+                }
+            })
                 .then(res => {
                     this.getProgressions();
                     this.showModal = false;
@@ -127,7 +149,11 @@ export default {
 
         deleteProgression(id) {
             if (confirm("Are you sure you want to delete this progression?")) {
-                axios.delete(`/api/progression/${id}`)
+                axios.delete(`/api/progression/${id}`,{
+                headers: {
+                'Authorization': `Bearer ${token}`
+                }
+            })
                     .then(res => {
                         this.getProgressions();
                     })

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="flex justify-center items-center min-h-screen">
       <div class="relative mx-auto w-full max-w-md bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 sm:rounded-xl sm:px-10">
         <div class="w-full">
           <div class="text-center">
@@ -71,18 +71,21 @@ export default {
   },
   methods: {
     login() {
-      axios.post('/api/login', this.user)
-        .then(res => {
-          if (res.data.token) {
-            this.message = res.data.message;
-            localStorage.setItem('token', JSON.stringify(res.data.token));
-            this.$router.push('/');
-          } else {
-            this.message = res.data.message;
-          }
-        })
-        .catch((e) => console.log(e.message));
-    }
+  axios.post('/api/login', this.user)
+    .then(res => {
+      if (res.data.token) {
+        this.message = res.data.message;
+        localStorage.setItem('token', res.data.token); 
+        this.$router.push('/index');
+      } else {
+        this.message = res.data.message;
+      }
+    })
+    .catch(error => {
+      console.error('Error during login:', error);
+    });
+}
+
   }
 }
 </script>

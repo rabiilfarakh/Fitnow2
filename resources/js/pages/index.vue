@@ -57,9 +57,9 @@
           </ul>
         </div>
       </div>
-      <a href="#" class="bg-transparent hover:bg-white text-white font-semibold hover:text-black p-2 border border-white hover:border-transparent rounded inline-block mt-3 mr-10 cursor-pointer">
+      <router-link to="/login" class="bg-transparent hover:bg-white text-white font-semibold hover:text-black p-2 border border-white hover:border-transparent rounded inline-block mt-3 mr-10 cursor-pointer">
         Logout
-      </a>
+      </router-link>
     </nav>
     <!-- Main Area -->
     <main>
@@ -266,13 +266,17 @@
 import axios from 'axios';
 
 export default {
-  data() {
-    return {
-
-    };
-  },
   methods: {
-
+    logout() {
+      axios.post('/api/logout')
+        .then(response => {
+            this.$router.push('/login');
+          this.$router.push('/login');
+        })
+        .catch(error => {
+          console.error('Erreur lors de la déconnexion:', error);
+        });
+    }
   }
 }
 </script>
