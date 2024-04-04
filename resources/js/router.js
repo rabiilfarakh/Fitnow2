@@ -21,11 +21,6 @@ const routes = [
     path: '/register',
     component: register
   },
-  // {
-  //   path: '/logout',
-  //   component: logout
-  // },
-
 
 ];
 

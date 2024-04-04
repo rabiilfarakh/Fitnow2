@@ -19,8 +19,7 @@ use App\Http\Controllers\UserController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::middleware('auth:sanctum')->get('/dashboard', [ProgressionController::class, 'index']);
-Route::middleware('auth:sanctum')->get('/index', [ProgressionController::class, 'index']);
+
 
 Route::group(['middleware' => ['auth:sanctum']],function(){
     Route::apiResource('progression', ProgressionController::class);
@@ -28,6 +27,6 @@ Route::group(['middleware' => ['auth:sanctum']],function(){
 });
 
 // Route::post('/dashboard', [UserController::class, 'register']);
-// Route::post('/register', [UserController::class, 'register']);
-// Route::post('/login', [UserController::class, 'login']);
+Route::post('/register', [UserController::class, 'register']);
+Route::post('/login', [UserController::class, 'login']);
 

@@ -262,28 +262,35 @@
       </div>
   </template>
 
-  <script>
-  const token = localStorage.getItem('token');
-  import axios from 'axios';
+<script>
+import axios from 'axios';
 
-  export default {
-    methods: {
-      logout() {
-        console.log(token);
-        axios.post('/api/logout',null,{
-                headers: {
-                'Authorization': `Bearer ${token}`
-                }
-            })
-          .then(response => {
-            localStorage.removeItem('token');
-            this.$router.push('/login');
-          })
-          .catch(error => {
-            console.error('Erreur lors de la déconnexion:', error);
-          });
-      }
+export default {
+  mounted() {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      this.$router.push('/login');
+    }
+  },
+  
+  methods: {
+    logout() {
+      const token = localStorage.getItem('token');
+      
+      axios.post('/api/logout', null, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+        .then(response => {
+          localStorage.removeItem('token');
+          this.$router.push('/login');
+        })
+        .catch(error => {
+          console.error('Erreur lors de la déconnexion:', error);
+        });
     }
   }
-  </script>
-
+}
+</script>

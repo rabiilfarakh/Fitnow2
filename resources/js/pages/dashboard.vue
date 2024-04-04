@@ -71,102 +71,104 @@
         </div>
     </div>
 </template>
-
 <script>
-    const token = localStorage.getItem('token');
+import axios from 'axios';
+
+const token = localStorage.getItem('token');
+
 export default {
-    data() {
-        return {
-            progressions: [],
-            progression: {poids: "", height: "", biceps: "", mollet: "" },
-            showModal: false,
-            isUpdate: false
-        }
-    },
-
-    methods: {
-        getProgressions() {
-            if (!token) {
-                console.error('No token found. User not authenticated.');
-                return;
-            }
-
-            axios.get('/api/progression', {
-                headers: {
-                'Authorization': `Bearer ${token}`
-                }
-            })
-            .then(res => {
-                
-                this.progressions = res.data;
-            })
-            .catch(error => {
-                console.error('Error while fetching progressions:', error);
-            });
-            },
-
-
-        addProgression() {
-            axios.post('/api/progression', this.progression, {
-                headers: {
-                'Authorization': `Bearer ${token}`
-                }
-            })
-                .then(res => {
-                    this.getProgressions();
-                    this.showModal = false;
-                    this.progression = {poids: "", height: "", biceps: "", mollet: "" };
-                })
-                .catch(err => console.error(err));
-        },
-
-        updateModal(progression) {
-            this.progression = { 
-                id: progression.id,
-                poids: progression.poids,
-                height: progression.height,
-                biceps: progression.biceps,
-                mollet: progression.mollet
-            };
-            this.isUpdate = true; 
-            this.showModal = true;
-        },
-
-        updateProgression() {
-            axios.put(`/api/progression/${this.progression.id}`, this.progression,{
-                headers: {
-                'Authorization': `Bearer ${token}`
-                }
-            })
-                .then(res => {
-                    this.getProgressions();
-                    this.showModal = false;
-                    this.progression = {poids: "", height: "", biceps: "", mollet: "" };
-                    this.isUpdate = false; 
-                })
-                .catch(err => console.error(err));
-        },
-
-        deleteProgression(id) {
-            if (confirm("Are you sure you want to delete this progression?")) {
-                axios.delete(`/api/progression/${id}`,{
-                headers: {
-                'Authorization': `Bearer ${token}`
-                }
-            })
-                    .then(res => {
-                        this.getProgressions();
-                    })
-                    .catch(err => {
-                        console.error(err);
-                        alert("Failed to delete progression.");
-                    });
-            }
-        }
-    },
-
-    mounted() {
-        this.getProgressions();
+  data() {
+    return {
+      progressions: [],
+      progression: { poids: "", height: "", biceps: "", mollet: "" },
+      showModal: false,
+      isUpdate: false
     }
+  },
+
+  methods: {
+    getProgressions() {
+      if (!token) {
+        console.error('No token found. User not authenticated.');
+        return;
+      }
+
+      axios.get('/api/progression', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      .then(res => {
+        this.progressions = res.data;
+      })
+      .catch(error => {
+        console.error('Error while fetching progressions:', error);
+      });
+    },
+
+    addProgression() {
+      axios.post('/api/progression', this.progression, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      .then(res => {
+        this.getProgressions();
+        this.showModal = false;
+        this.progression = { poids: "", height: "", biceps: "", mollet: "" };
+      })
+      .catch(err => console.error(err));
+    },
+
+    updateModal(progression) {
+      this.progression = { 
+        id: progression.id,
+        poids: progression.poids,
+        height: progression.height,
+        biceps: progression.biceps,
+        mollet: progression.mollet
+      };
+      this.isUpdate = true; 
+      this.showModal = true;
+    },
+
+    updateProgression() {
+      axios.put(`/api/progression/${this.progression.id}`, this.progression,{
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      .then(res => {
+        this.getProgressions();
+        this.showModal = false;
+        this.progression = { poids: "", height: "", biceps: "", mollet: "" };
+        this.isUpdate = false; 
+      })
+      .catch(err => console.error(err));
+    },
+
+    deleteProgression(id) {
+      if (confirm("Are you sure you want to delete this progression?")) {
+        axios.delete(`/api/progression/${id}`,{
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+        .then(res => {
+          this.getProgressions();
+        })
+        .catch(err => {
+          console.error(err);
+          alert("Failed to delete progression.");
+        });
+      }
+    }
+  },
+
+  mounted() {
+    if (!token) {
+      this.$router.push('/login');
+    }
+  }
 }
 </script>
